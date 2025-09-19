@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Burger {{ id }} - CRUDcroustillant{% endblock %}
+
+{% block content %}
+    <h1>Détail du burger {{ id }}</h1><br />
+    <p>Nom : {{ burger.name }}</p><br />
+    <p>Prix : {{ burger.price }}</p><br />
+    <p>Description : {{ burger.description }}</p>
+{% endblock %}
