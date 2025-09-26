@@ -45,4 +45,16 @@ final class BurgerController extends AbstractController
             'burgers' => $burgers,
         ]);
     }
+
+    #[Route('/burger/top/{limit}', name: 'burger_top')]
+    public function topBurgers(int $limit, BurgerRepository $burgerRepository): Response
+    {
+        $burgers = $burgerRepository->findTopXBurgers($limit);
+
+        return $this->render('burger/top.html.twig', [
+            'burgers' => $burgers,
+            'limit' => $limit,
+        ]);
+    }
+
 }

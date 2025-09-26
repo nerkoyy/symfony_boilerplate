@@ -55,4 +55,17 @@ class BurgerRepository extends ServiceEntityRepository
 
         return $query->getResult();
     }
+    public function findTopXBurgers(int $limit): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT b
+         FROM App\Entity\Burger b
+         ORDER BY b.price DESC'
+        )->setMaxResults($limit);
+
+        return $query->getResult();
+    }
+
 }
