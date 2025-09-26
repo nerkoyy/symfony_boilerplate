@@ -40,4 +40,19 @@ class BurgerRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+    public function findBurgersWithIngredients(string $ingredients): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT burger
+             FROM App\Entity\Burger burger
+             LEFT JOIN burger.oignons oignon
+             LEFT JOIN burger.sauce sauce
+             WHERE oignon.name = :ingredient OR sauce.name = :ingredient'
+        )->setParameter('ingredient', $ingredients);
+
+        return $query->getResult();
+    }
 }

@@ -23,7 +23,7 @@ class AppFixtures extends Fixture
         $oignons = [];
         for ($i = 0; $i < 50; $i++) {
             $oignon = new Oignon();
-            $oignon->setName($faker->word());
+            $oignon->setName("Oignon " . $faker->word());
             $manager->persist($oignon);
             $oignons[] = $oignon;
         }
@@ -31,7 +31,7 @@ class AppFixtures extends Fixture
         $pains = [];
         for ($i = 0; $i < 50; $i++) {
             $pain = new Pain();
-            $pain->setName($faker->word());
+            $pain->setName("Pain " . $faker->word());
             $manager->persist($pain);
             $pains[] = $pain;
         }
@@ -40,7 +40,7 @@ class AppFixtures extends Fixture
         $sauces = [];
         for ($i = 0; $i < 50; $i++) {
             $sauce = new Sauce();
-            $sauce->setName($faker->word());
+            $sauce->setName("Sauce " . $faker->word());
             $manager->persist($sauce);
             $sauces[] = $sauce;
         }

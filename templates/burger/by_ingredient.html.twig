@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Burgers{% endblock %}
+
+{% block content %}
+
+    <ul>
+        {% for burger in burgers %}
+            <li>{{ burger.name }} - Prix : {{ burger.price }} €</li>
+        {% else %}
+            <li>Aucun burger trouvé pour cet ingrédient.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

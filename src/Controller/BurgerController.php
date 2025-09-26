@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Burger;
+use App\Repository\BurgerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,5 +33,16 @@ final class BurgerController extends AbstractController
         $entityManager->flush();
 
         return new Response('Burger créé avec succès !');
+    }
+
+    #[Route('/burger/byIngredient', name: 'burger_by_ingredient')]
+    public function burgersByIngredient(BurgerRepository $burgerRepository): Response
+    {
+        $burgers = $burgerRepository->findBurgersWithIngredients("Oignon");
+
+        // Affiche dans un template
+        return $this->render('burger/by_ingredient.html.twig', [
+            'burgers' => $burgers,
+        ]);
     }
 }
