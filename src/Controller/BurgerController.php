@@ -2,33 +2,35 @@
 
 namespace App\Controller;
 
+use App\Entity\Burger;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
-class BurgerController extends AbstractController
+final class BurgerController extends AbstractController
 {
-    #[Route('/burgers', name: 'burgers')]
-    public function list(): Response
+    #[Route('/burgers', name: 'burger_index')]
+    public function index(EntityManagerInterface $entityManager): Response
     {
-        return $this->render('burger_list.html.twig');
+        // Récupérer tous les burgers
+        $burgers = $entityManager->getRepository(Burger::class)->findAll();
+
+        return $this->render('burger/index.html.twig', [
+            'burgers' => $burgers,
+        ]);
     }
 
-    #[Route('burger/{id}', name:"burger_show")]
-    public function show($id): Response
+    #[Route('/burger/create', name: 'burger_create')]
+    public function create(EntityManagerInterface $entityManager): Response
     {
-        $burgers = [
-            1 => ['name' => 'Cheeseburger', 'price' => 5.99, 'description' => 'Burger au fromage'],
-            2 => ['name' => 'Chickenburger', 'price' => 9.99, 'description' => 'Burger au poulet'],
-            3 => ['name' => 'Baconburger', 'price' => 10.99, 'description' => 'Burger au bacon'],
-        ];
+        $burger = new Burger();
+        $burger->setName('Burger Test');
+        $burger->setPrice(5.99);
 
-        if(!isset($burgers[$id])) {
-            return $this->render('burger_not_found.html.twig');
-        }
+        $entityManager->persist($burger);
+        $entityManager->flush();
 
-        $burger = $burgers[$id];
-
-        return $this->render('burger_show.html.twig', ['id'=>$id, 'burger'=>$burger]);
+        return new Response('Burger créé avec succès !');
     }
 }

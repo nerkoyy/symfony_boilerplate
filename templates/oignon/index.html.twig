@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des oignons{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+
+    <div class="example-wrapper">
+        <h1>Liste des oignons</h1>
+
+        {% if oignons is not empty %}
+            <ul>
+                {% for oignon in oignons %}
+                    <li>{{ oignon.id }} - {{ oignon.name }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aucun oignon trouvé dans la base de données.</p>
+        {% endif %}
+    </div>
+{% endblock %}
