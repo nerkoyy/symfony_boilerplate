@@ -4,10 +4,20 @@ namespace App\Entity;
 
 use App\Repository\BurgerRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 
 #[ORM\Entity(repositoryClass: BurgerRepository::class)]
 class Burger
 {
+
+    public function __construct()
+    {
+        $this->oignons = new ArrayCollection();
+        $this->sauce = new ArrayCollection();
+    }
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -25,7 +35,7 @@ class Burger
 
     #[ORM\ManyToMany(targetEntity: Oignon::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private $oignon;
+    private $oignons;
 
     #[ORM\ManyToMany(targetEntity: Sauce::class)]
     #[ORM\JoinColumn(nullable: false)]
@@ -65,6 +75,51 @@ class Burger
     {
         $this->price = $price;
 
+        return $this;
+    }
+
+    public function getPain(): ?Pain
+    {
+        return $this->pain;
+    }
+
+    public function setPain(Pain $pain): self
+    {
+        $this->pain = $pain;
+        return $this;
+    }
+
+    public function setImage(Image $image): self
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+    public function addSauce(Sauce $sauce): self
+    {
+        if (!$this->sauce->contains($sauce)) {
+            $this->sauce[] = $sauce;
+        }
+        return $this;
+    }
+
+
+    public function getOignons(): Collection
+    {
+        return $this->oignons;
+    }
+
+    public function addOignon(Oignon $oignon): self
+    {
+        if (!$this->oignons->contains($oignon)) {
+            $this->oignons[] = $oignon;
+        }
+        return $this;
+    }
+
+    public function removeOignon(Oignon $oignon): self
+    {
+        $this->oignons->removeElement($oignon);
         return $this;
     }
 }
