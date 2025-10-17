@@ -3,6 +3,20 @@
 
 {% block body %}
     {{ form_start(form) }}
-        {{ form_widget(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.price) }}
+
+    <div data-controller="image-preview">
+        {{ form_row(form.image) }}
+        <img data-image-preview-target="preview"
+             src=""
+             alt="Aperçu de l'image"
+             style="display:none; max-width:300px; max-height:300px; margin-top:10px; border-radius:10px;">
+    </div>
+
+    {{ form_row(form.pain) }}
+    {{ form_row(form.sauce) }}
+    {{ form_row(form.oignons) }}
+    <button type="submit" class="btn btn-primary">Valider</button>
     {{ form_end(form) }}
 {% endblock %}

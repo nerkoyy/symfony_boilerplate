@@ -43,9 +43,8 @@ class Burger
     private $sauce;
 
     #[ORM\OneToOne(targetEntity: Image::class)]
-    #[ORM\JoinColumn(nullable: true)]
-    private $image;
-
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Image $image = null;
 
     #[ORM\OneToMany(mappedBy: "burger", targetEntity: Commentaire::class, cascade: ["persist", "remove"])]
     private Collection $commentaires;
@@ -95,6 +94,11 @@ class Burger
     {
         $this->image = $image;
         return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
     }
 
     public function addSauce(Sauce $sauce): self

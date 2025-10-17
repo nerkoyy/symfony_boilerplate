@@ -14,21 +14,36 @@ class Image
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private ?string $url = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $altText = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getUrl(): ?string
     {
-        return $this->name;
+        return $this->url;
     }
 
-    public function setName(string $name): static
+    public function setUrl(string $url): static
     {
-        $this->name = $name;
+        $this->url = $url;
+
+        return $this;
+    }
+
+    public function getAltText(): ?string
+    {
+        return $this->altText;
+    }
+
+    public function setAltText(string $altText): static
+    {
+        $this->altText = $altText;
 
         return $this;
     }

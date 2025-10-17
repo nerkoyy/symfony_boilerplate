@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Burger;
+use App\Entity\Image;
 use App\Entity\Pain;
 use App\Entity\Oignon;
 use App\Entity\Sauce;
@@ -55,10 +56,10 @@ class BurgerType extends AbstractType
                 'by_reference' => false,
                 'required' => true,
             ])
-            ->add('image', FileType::class, [
-                'label' => 'Image du burger',
-                'mapped' => false,
-                'required' => false,
+            ->add('image', EntityType::class, [
+                'class' => Image::class,
+                'choice_label' => 'url',
+                'attr' => ['data-image-preview-target' => 'select', 'data-action' => 'change->image-preview#preview'],
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Valider',
