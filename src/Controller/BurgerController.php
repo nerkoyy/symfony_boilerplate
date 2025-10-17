@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Burger;
+use App\Form\BurgerType;
 use App\Repository\BurgerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -23,17 +25,28 @@ final class BurgerController extends AbstractController
     }
 
     #[Route('/burger/create', name: 'burger_create')]
-    public function create(EntityManagerInterface $entityManager): Response
+    public function create(Request $request, EntityManagerInterface $em): Response
     {
         $burger = new Burger();
-        $burger->setName('Burger Test');
-        $burger->setPrice(5.99);
 
-        $entityManager->persist($burger);
-        $entityManager->flush();
+        $form = $this->createForm(BurgerType::class, $burger);
 
-        return new Response('Burger créé avec succès !');
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($burger);
+            $em->flush();
+
+            $this->addFlash('success', 'Burger créé !');
+
+            return $this->redirectToRoute('burger_index');
+        }
+
+        return $this->render('burger/new.html.twig', [
+            'form' => $form,
+        ]);
     }
+
 
     #[Route('/burger/byIngredient', name: 'burger_by_ingredient')]
     public function burgersByIngredient(BurgerRepository $burgerRepository): Response

@@ -43,7 +43,7 @@ class Burger
     private $sauce;
 
     #[ORM\OneToOne(targetEntity: Image::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private $image;
 
 
@@ -105,7 +105,17 @@ class Burger
         return $this;
     }
 
+    public function getSauce(): Collection
+    {
+        return $this->sauce;
+    }
 
+    public function removeSauce(Sauce $sauce): self
+    {
+        $this->sauce->removeElement($sauce);
+        return $this;
+    }
+    
     public function getOignons(): Collection
     {
         return $this->oignons;
