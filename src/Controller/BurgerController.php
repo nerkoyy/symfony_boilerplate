@@ -67,4 +67,16 @@ final class BurgerController extends AbstractController
             'ingredientName' => $ingredientName,
         ]);
     }
+
+    #[Route('/burger/minIngredients/{min}', name: 'burger_min_ingredients')]
+    public function burgersWithMinimumIngredients(int $min, BurgerRepository $burgerRepository): Response
+    {
+        $burgers = $burgerRepository->findBurgersWithMinimumIngredients($min);
+
+        return $this->render('burger/min_ingredients.html.twig', [
+            'burgers' => $burgers,
+            'minIngredients' => $min,
+        ]);
+    }
+
 }

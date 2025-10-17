@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Burgers avec au moins {{ minIngredients }} ingrédients{% endblock %}
+
+{% block body %}
+    <h1>Burgers avec au moins {{ minIngredients }} ingrédients</h1>
+
+    <ul>
+        {% for burger in burgers %}
+            <li>{{ burger.name }} - {{ burger.price }} €</li>
+        {% else %}
+            <li>Aucun burger trouvé avec au moins {{ minIngredients }} ingrédients.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
