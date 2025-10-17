@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Burgers sans {{ ingredientName }}{% endblock %}
+
+{% block body %}
+    <h1>Burgers sans {{ ingredientName }}</h1>
+
+    <ul>
+        {% for burger in burgers %}
+            <li>{{ burger.name }} - {{ burger.price }} €</li>
+        {% else %}
+            <li>Aucun burger sans {{ ingredientName }} trouvé.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

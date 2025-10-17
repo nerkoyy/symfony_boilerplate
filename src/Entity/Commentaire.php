@@ -16,6 +16,10 @@ class Commentaire
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[ORM\ManyToOne(targetEntity: Burger::class, inversedBy: "commentaires")]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Burger $burger = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -30,6 +34,17 @@ class Commentaire
     {
         $this->name = $name;
 
+        return $this;
+    }
+
+    public function getBurger(): ?Burger
+    {
+        return $this->burger;
+    }
+
+    public function setBurger(?Burger $burger): self
+    {
+        $this->burger = $burger;
         return $this;
     }
 }

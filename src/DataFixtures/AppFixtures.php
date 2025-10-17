@@ -28,6 +28,7 @@ class AppFixtures extends Fixture
             $oignons[] = $oignon;
         }
 
+        // ---- Pains ----
         $pains = [];
         for ($i = 0; $i < 50; $i++) {
             $pain = new Pain();
@@ -45,6 +46,7 @@ class AppFixtures extends Fixture
             $sauces[] = $sauce;
         }
 
+        // ---- Images ----
         $images = [];
         for ($i = 0; $i < 50; $i++) {
             $image = new Image();
@@ -53,38 +55,35 @@ class AppFixtures extends Fixture
             $images[] = $image;
         }
 
-        // ---- Commentaires ----
-        for ($i = 0; $i < 50; $i++) {
-            $commentaire = new Commentaire();
-            $commentaire->setName($faker->sentence()); // ou setContenu selon ton entité
-            $manager->persist($commentaire);
-        }
-
         // ---- Burgers ----
         $burgers = [];
         for ($i = 0; $i < 50; $i++) {
             $burger = new Burger();
-            $burger->setName($faker->word());
+            $burger->setName("Burger " . $faker->word());
             $burger->setPrice($faker->randomFloat(2, 5, 20));
 
-            // Assigner une image unique
             $burger->setImage($images[$i]);
 
-            // Assigner un pain aléatoire
             $burger->setPain($pains[array_rand($pains)]);
 
-            // Ajouter 1 à 3 sauces aléatoires
             for ($j = 0; $j < rand(1, 3); $j++) {
                 $burger->addSauce($sauces[array_rand($sauces)]);
             }
 
-            // Ajouter 1 oignon aléatoire
-            $burger->addOignon($oignons[array_rand($oignons)]);
+            for ($j = 0; $j < rand(1, 2); $j++) {
+                $burger->addOignon($oignons[array_rand($oignons)]);
+            }
 
             $manager->persist($burger);
-            $burgers[] = $burger; // stocker dans le tableau si besoin plus tard
+            $burgers[] = $burger;
         }
 
+        for ($i = 0; $i < 100; $i++) {
+            $commentaire = new Commentaire();
+            $commentaire->setName($faker->sentence());
+            $commentaire->setBurger($burgers[array_rand($burgers)]); // 🔥 association ici
+            $manager->persist($commentaire);
+        }
 
         $manager->flush();
     }

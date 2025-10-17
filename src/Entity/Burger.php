@@ -16,6 +16,7 @@ class Burger
     {
         $this->oignons = new ArrayCollection();
         $this->sauce = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
     }
 
     #[ORM\Id]
@@ -45,9 +46,10 @@ class Burger
     #[ORM\JoinColumn(nullable: false)]
     private $image;
 
-    #[ORM\OneToMany(mappedBy:"burger", targetEntity: Commentaire::class)]
-    #[ORM\JoinColumn(nullable: false)]
-    private $commentaire;
+
+    #[ORM\OneToMany(mappedBy: "burger", targetEntity: Commentaire::class, cascade: ["persist", "remove"])]
+    private Collection $commentaires;
+
 
     public function getId(): ?int
     {
@@ -120,6 +122,31 @@ class Burger
     public function removeOignon(Oignon $oignon): self
     {
         $this->oignons->removeElement($oignon);
+        return $this;
+    }
+
+
+    public function getCommentaires(): Collection
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): self
+    {
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires[] = $commentaire;
+            $commentaire->setBurger($this);
+        }
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): self
+    {
+        if ($this->commentaires->removeElement($commentaire)) {
+            if ($commentaire->getBurger() === $this) {
+                $commentaire->setBurger(null);
+            }
+        }
         return $this;
     }
 }

@@ -68,4 +68,21 @@ class BurgerRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function findBurgersWithoutIngredient(string $ingredientName): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT b
+         FROM App\Entity\Burger b
+         LEFT JOIN b.oignons o
+         LEFT JOIN b.sauce s
+         LEFT JOIN b.pain p
+         WHERE (o.name != :ingredient OR o.name IS NULL)
+           AND (s.name != :ingredient OR s.name IS NULL)
+           AND (p.name != :ingredient OR p.name IS NULL)'
+        )->setParameter('ingredient', $ingredientName);
+
+        return $query->getResult();
+    }
 }

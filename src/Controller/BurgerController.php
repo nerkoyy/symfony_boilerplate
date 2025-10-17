@@ -57,4 +57,14 @@ final class BurgerController extends AbstractController
         ]);
     }
 
+    #[Route('/burger/without/{ingredientName}', name: 'burger_without_ingredient')]
+    public function burgersWithoutIngredient(string $ingredientName, BurgerRepository $burgerRepository): Response
+    {
+        $burgers = $burgerRepository->findBurgersWithoutIngredient($ingredientName);
+
+        return $this->render('burger/without.html.twig', [
+            'burgers' => $burgers,
+            'ingredientName' => $ingredientName,
+        ]);
+    }
 }
